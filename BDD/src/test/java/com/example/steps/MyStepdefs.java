@@ -1,42 +1,36 @@
-package com.example.steps;
+package calculator;
 
-import calculator.Calculator;
-import static org.junit.Assert.assertEquals;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.junit.Assert;
+import org.junit.Before;
 
 public class MyStepdefs {
-    private final Calculator calculator;
-    private int value1;
-    private int value2;
-    private int result;
-
-    public MyStepdefs() {
-        calculator = new Calculator();
-    }
+    private Calculator calculator = new Calculator();
+    private int a;
+    private int b;
+    private double result;
 
     @Given("Two input values, {int} and {int}")
-    public void twoInputValuesAnd(int arg0, int arg1) {
-        this.value1 = arg0;
-        this.value2 = arg1;
+    public void twoInputValuesAnd(int arg0, int arg1) throws Throwable{
+        a = arg0;
+        b = arg1;
     }
 
+    @When("I divide two numbers and then get the square root of the result")
+    public void iDivideTwoNumbersAndThenGetTheSquareRootOfTheResult() {
+        result = calculator.dividingAndSquareRoot(a, b);
+    }
     @When("I add the two values")
     public void iAddTheTwoValues() {
-        result = calculator.add(value1, value2);
+        result = calculator.add(a, b);
     }
 
-    @Then("I expect the result {int}")
-    public void iExpectTheResult(int expectedResult) {
-        assertEquals(expectedResult, result);
+    @Then("I expect the result {double}")
+    public void iExpectTheResult(double expectedResult) {
+
+        Assert.assertEquals(expectedResult, result, 0.001);
     }
 
-    @Given("Two input values, <arg{int}> and <arg{int}>")
-    public void twoInputValuesAnd(String arg0, String arg1) {
-    }
-
-    @Then("I expect the result {}")
-    public void iExpectTheResult(String arg0) {
-    }
 }
